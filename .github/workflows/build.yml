@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --config.blockExoticSubdeps=false
+      - run: pnpm test
+      - run: pnpm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Kontakt-Drop-Windows
+          path: dist/Kontakt-Drop-*-portable.exe

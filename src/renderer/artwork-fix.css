@@ -1,0 +1,5 @@
+/* Show the complete candidate image during review; never hide its title. */
+.art-preview {
+  background-size: contain;
+  background-repeat: no-repeat;
+}

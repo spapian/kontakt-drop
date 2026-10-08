@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: https: data:; style-src 'self'; script-src 'self'">
+  <title>Kontakt Drop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="artwork-fix.css">
+  <link rel="stylesheet" href="artwork-editor.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><span class="mark">KD</span><span>KONTAKT DROP</span></div>
+      <div class="privacy"><span></span> Files stay on this computer</div>
+    </header>
+
+    <main>
+      <section id="dropView" class="view active">
+        <div class="eyebrow">PERSONAL LIBRARY PREP / WINDOWS</div>
+        <h1>Drop a library.<br><em>Make it visible.</em></h1>
+        <div id="dropZone" class="drop-zone" tabindex="0">
+          <div class="drop-icon">DROP</div>
+          <div><strong>DROP LIBRARY FOLDER</strong><small>or click to choose one</small></div>
+          <div class="formats">NKI · NKM · NKB</div>
+        </div>
+        <p class="lede">Kontakt Drop checks the name online, finds artwork, creates metadata with a unique SNPID, and prepares the library for Kontakt’s Custom Libraries browser.</p>
+      </section>
+
+      <section id="reviewView" class="view">
+        <div class="stepbar"><span>01 SCAN</span><span class="on">02 REVIEW</span><span>03 PREPARE</span></div>
+        <div class="review-grid">
+          <div>
+            <div class="eyebrow">LIBRARY RECEIPT</div>
+            <h2>Confirm the match.</h2>
+            <div class="receipt">
+              <div><span>FOLDER</span><b id="folderName"></b></div>
+              <div><span>INSTRUMENTS</span><b id="instrumentCount"></b></div>
+              <div><span>ONLINE MATCH</span><b id="matchStatus"></b></div>
+              <div><span>EXISTING NICNT</span><b id="nicntStatus"></b></div>
+            </div>
+            <label for="libraryName">Library name</label>
+            <input id="libraryName" autocomplete="off" spellcheck="false">
+            <label class="check"><input id="renameFolder" type="checkbox" checked><span>Rename the folder to this verified name</span></label>
+            <p id="matchNote" class="note"></p>
+          </div>
+          <div>
+            <div class="art-head"><span>ARTWORK POSITION</span><button id="nextArt" class="text-button">NEXT IMAGE</button></div>
+            <div class="frame-tabs" role="tablist" aria-label="Kontakt artwork format">
+              <button class="frame-tab active" data-frame="browser" role="tab">BROWSER TILE <b>536 × 264</b></button>
+              <button class="frame-tab" data-frame="legacy" role="tab">WALLPAPER <b>598 × 98</b></button>
+            </div>
+            <div id="artPreview" class="art-preview art-stage browser-frame">
+              <img id="artBackdrop" alt="" draggable="false">
+              <img id="artImage" alt="Selected library artwork" draggable="false">
+              <div class="frame-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="title-safe" aria-hidden="true"><span>TITLE SAFE AREA</span></div>
+              <div id="frameSize" class="frame-size">536 × 264</div>
+              <span id="noArtwork">NO ARTWORK FOUND</span>
+            </div>
+            <div class="editor-controls">
+              <label for="artZoom">Zoom <output id="zoomValue">100%</output></label>
+              <input id="artZoom" type="range" min="100" max="1200" step="5" value="100">
+              <button id="resetPosition" class="reset-button">RESET POSITION</button>
+            </div>
+            <p class="drag-note">Drag the image inside the frame. Browser tile and wallpaper positions are saved separately.</p>
+            <p id="artSource" class="source"></p>
+            <button id="prepareButton" class="primary">PREPARE LIBRARY</button>
+            <button id="backButton" class="secondary">CHOOSE ANOTHER FOLDER</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="workingView" class="view status-view">
+        <div class="spinner"></div><div class="eyebrow">PREPARING LIBRARY</div>
+        <h2>Building the receipt.</h2><p>Creating metadata, selecting a unique SNPID, and sizing the artwork.</p>
+      </section>
+
+      <section id="doneView" class="view">
+        <div class="stepbar"><span>01 SCAN</span><span>02 REVIEW</span><span class="on">03 PREPARED</span></div>
+        <div class="done-grid">
+          <div><div class="success-mark">READY</div><div class="eyebrow">LIBRARY READY</div><h2 id="doneName"></h2><p>Your files are prepared. Kontakt still needs one official browser import step.</p></div>
+          <div class="receipt final">
+            <div><span>SNPID</span><b id="doneSnpid"></b></div>
+            <div><span>NICNT</span><b id="doneNicnt"></b></div>
+            <div><span>ARTWORK</span><b id="doneArtwork"></b></div>
+          </div>
+        </div>
+        <div class="instruction"><b>IN KONTAKT 7 / 8</b><span>Open Library Browser → cogwheel → Custom Libraries → Add, then choose this prepared folder.</span></div>
+        <div class="actions"><button id="openFolder" class="secondary dark">OPEN FOLDER</button><button id="openKontakt" class="primary">OPEN KONTAKT</button><button id="restart" class="secondary">PREPARE ANOTHER</button></div>
+      </section>
+
+      <section id="errorView" class="view status-view"><div class="error-mark">ERROR</div><div class="eyebrow">COULD NOT FINISH</div><h2 id="errorTitle">Something got in the way.</h2><p id="errorMessage"></p><button id="errorBack" class="primary">BACK TO REVIEW</button></section>
+    </main>
+    <footer><span>Kontakt Drop 1.0</span><span>Online lookup sends only the library and instrument names—not your files.</span><span>NO REGISTRY EDITS</span></footer>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

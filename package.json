@@ -1,0 +1,54 @@
+{
+  "name": "kontakt-drop",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "pnpm@11.19.0",
+  "type": "module",
+  "description": "A Windows desktop helper for preparing personal Kontakt libraries.",
+  "main": "src/main.cjs",
+  "scripts": {
+    "dev": "electron .",
+    "test": "node --test",
+    "check": "npm test",
+    "build": "electron-builder --win portable && node scripts/embed-windows-icon.cjs"
+  },
+  "dependencies": {
+    "sharp": "0.34.4"
+  },
+  "devDependencies": {
+    "electron": "38.2.1",
+    "electron-builder": "26.0.12",
+    "electron-winstaller": "5.4.0"
+  },
+  "build": {
+    "appId": "com.aleksa.kontaktdrop",
+    "productName": "Kontakt Drop",
+    "asar": true,
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend/kidc",
+        "to": "kidc"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Kontakt-Drop-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    }
+  }
+}
